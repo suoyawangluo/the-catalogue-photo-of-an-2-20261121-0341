@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1024px; height: 1024px; overflow: hidden; }
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: linear-gradient(180deg, #f6f4f0 0%, #edeae4 58%, #e3dfd8 100%);
+    position: relative;
+  }
+  .header {
+    position: absolute; top: 36px; left: 0; width: 1024px; text-align: center;
+    font-size: 15px; letter-spacing: 7px; color: #8d8880;
+  }
+  .header b { color: #54514b; font-weight: 600; }
+  .floor {
+    position: absolute; left: 0; top: 740px; width: 1024px; height: 284px;
+    background: linear-gradient(180deg, #dedad3 0%, #d3cec6 100%);
+    border-top: 1px solid #c9c4bb;
+  }
+  .shadow-bank {
+    position: absolute; left: 302px; top: 726px; width: 420px; height: 40px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0) 68%);
+  }
+  .shadow-phone {
+    position: absolute; left: 92px; top: 828px; width: 330px; height: 30px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0) 68%);
+  }
+  /* ---- the gadget: LOOPCELL ONE self-charging power bank ---- */
+  .bank {
+    position: absolute; left: 362px; top: 200px; width: 300px; height: 540px;
+    background: linear-gradient(155deg, #4b4e54 0%, #26282c 45%, #121316 100%);
+    border-radius: 38px;
+    border: 1px solid rgba(0,0,0,0.6);
+    box-shadow:
+      inset 3px 0 10px rgba(255,255,255,0.22),
+      inset -4px 0 12px rgba(0,0,0,0.55),
+      inset 0 2px 2px rgba(255,255,255,0.18),
+      0 18px 30px rgba(0,0,0,0.18);
+  }
+  .bank .rim {
+    position: absolute; left: 14px; top: 10px; width: 272px; height: 10px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.34), rgba(255,255,255,0.06) 60%, rgba(255,255,255,0.20));
+  }
+  .bank .screen {
+    position: absolute; left: 55px; top: 66px; width: 190px; height: 118px;
+    background: #070907;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: inset 0 0 18px rgba(120,255,150,0.10);
+    text-align: center;
+    padding-top: 18px;
+  }
+  .bank .screen .pct {
+    font-size: 46px; font-weight: 700; color: #d9f7dd; letter-spacing: 1px; line-height: 1;
+  }
+  .bank .screen .mode {
+    margin-top: 10px; font-size: 13px; letter-spacing: 3px; color: #8fce96;
+  }
+  .bank .brand {
+    position: absolute; left: 0; top: 216px; width: 300px; text-align: center;
+    font-size: 22px; font-weight: 600; letter-spacing: 7px; color: #d3d5d8;
+  }
+  .bank .sub {
+    position: absolute; left: 0; top: 248px; width: 300px; text-align: center;
+    font-size: 12px; letter-spacing: 4px; color: #8f9297;
+  }
+  .bank .led {
+    position: absolute; left: 138px; top: 320px; width: 24px; height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c8ffd2, #37b24d 60%, #1e7a32);
+    box-shadow: 0 0 12px rgba(80,220,120,0.75);
+  }
+  .bank .port-top, .bank .port-bottom {
+    position: absolute; left: 138px; width: 24px; height: 10px;
+    background: #050506; border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.22);
+  }
+  .bank .port-top { top: -5px; }
+  .bank .port-bottom { bottom: -5px; }
+  .bank .maker {
+    position: absolute; left: 0; bottom: 26px; width: 300px; text-align: center;
+    font-size: 11px; letter-spacing: 4px; color: #6d7076;
+  }
+  /* ---- the cable loop: OUT back into IN ---- */
+  .cable { position: absolute; left: 0; top: 0; width: 1024px; height: 1024px; }
+  /* ---- the one accessory: a dead phone that never gets charged ---- */
+  .phone {
+    position: absolute; left: 118px; top: 692px; width: 292px; height: 148px;
+    transform: rotate(3deg);
+    background: #151619;
+    border-radius: 20px;
+    border: 2px solid #cfcdc8;
+    box-shadow: inset 0 0 0 3px #26272b, 0 10px 18px rgba(0,0,0,0.20);
+  }
+  .phone .pscreen {
+    position: absolute; left: 12px; top: 12px; width: 264px; height: 120px;
+    background: #08090b; border-radius: 12px;
+  }
+  .phone .batt {
+    position: absolute; left: 96px; top: 46px; width: 52px; height: 26px;
+    border: 3px solid #e5484d; border-radius: 5px;
+  }
+  .phone .batt::after {
+    content: ""; position: absolute; right: -11px; top: 6px; width: 6px; height: 8px;
+    background: #e5484d; border-radius: 2px;
+  }
+  .phone .batt-fill {
+    position: absolute; left: 3px; top: 3px; width: 6px; height: 14px;
+    background: #e5484d; border-radius: 2px;
+  }
+  .phone .one {
+    position: absolute; left: 158px; top: 48px; font-size: 22px; font-weight: 700; color: #e5484d;
+  }
+  /* ---- catalogue caption strip ---- */
+  .caption { position: absolute; left: 0; top: 872px; width: 1024px; text-align: center; }
+  .caption .name { font-size: 30px; font-weight: 700; letter-spacing: 10px; color: #2c2a27; }
+  .caption .line { font-size: 15px; letter-spacing: 5px; color: #6d6963; margin-top: 12px; }
+  .caption .spec { font-size: 14px; letter-spacing: 2px; color: #8d8880; margin-top: 10px; }
+  .caption .price { font-size: 17px; font-weight: 600; letter-spacing: 2px; color: #2c2a27; margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="header"><b>PERPETUA</b> &nbsp;·&nbsp; HARDWARE CATALOGUE &nbsp;·&nbsp; No. 047</div>
+  <div class="floor"></div>
+  <div class="shadow-bank"></div>
+  <div class="shadow-phone"></div>
+
+  <div class="bank">
+    <div class="rim"></div>
+    <div class="port-top"></div>
+    <div class="port-bottom"></div>
+    <div class="screen">
+      <div class="pct">&#8635; 100%</div>
+      <div class="mode">SELF-CHARGE</div>
+    </div>
+    <div class="brand">LOOPCELL</div>
+    <div class="sub">ONE</div>
+    <div class="led"></div>
+    <div class="maker">PERPETUA</div>
+  </div>
+
+  <svg class="cable" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 512 196 C 668 196 724 320 724 462 C 724 604 668 734 512 734"
+          fill="none" stroke="#1d1e20" stroke-width="17" stroke-linecap="round"/>
+    <path d="M 512 196 C 668 196 724 320 724 462 C 724 604 668 734 512 734"
+          fill="none" stroke="#43454a" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    <rect x="499" y="182" width="26" height="30" rx="7" fill="#232428" stroke="#55575c" stroke-width="1.5"/>
+    <rect x="499" y="722" width="26" height="30" rx="7" fill="#232428" stroke="#55575c" stroke-width="1.5"/>
+  </svg>
+
+  <div class="phone">
+    <div class="pscreen">
+      <div class="batt"><div class="batt-fill"></div></div>
+      <div class="one">1%</div>
+    </div>
+  </div>
+
+  <div class="caption">
+    <div class="name">LOOPCELL ONE</div>
+    <div class="line">SELF-CHARGING POWER BANK</div>
+    <div class="spec">10,000 mAh &nbsp;·&nbsp; USB-C IN / OUT &nbsp;·&nbsp; NEVER NEEDS A WALL</div>
+    <div class="price">US $49</div>
+  </div>
+</body>
+</html>
